@@ -45,11 +45,10 @@ public class InsertHeuristicTSP implements HeuristicTSP {
 		Arc bestArc = null;
 		Arc finalArc = null;
 		while(!out.isEmpty()){
-			maxCost = Double.MAX_VALUE;
+			maxCost = Double.MIN_VALUE;
 			finalVertex = -1;
 			for(Integer v : out){
-				bestCost = maxCost;
-				findBestFit(v, bestCost, bestArc);
+				bestCost = findBestFit(v, bestArc);
 				if(maxCost < bestCost){
 					finalVertex = v;
 					maxCost = bestCost;
@@ -72,9 +71,11 @@ public class InsertHeuristicTSP implements HeuristicTSP {
 		return totalCost;
 	}
 
-	private void findBestFit(int v, double bestCost, Arc bestArc){
+	private double findBestFit(int v, Arc bestArc){
 		bestArc = null;
+		double bestCost = Double.MAX_VALUE;
 		double pCost;
+		System.out.println(finalList);
 		for(Arc a : finalList){
 			if(bestArc == null){
 				bestArc = a;
@@ -82,13 +83,13 @@ public class InsertHeuristicTSP implements HeuristicTSP {
 			System.out.println(a+"<<<");
 			Arc tmp1 = Arc.findArc(initList, a.getSource(), v);
 			Arc tmp2 = Arc.findArc(initList, v, a.getTarget());
-			System.out.println(tmp1);
-			System.out.println(tmp2);
 			pCost = tmp1.getCost() + tmp2.getCost();
-			if( pCost <= bestCost){
+			if( pCost < bestCost){
 				bestArc = a;
 				bestCost = pCost;
 			}			
-		}		
+			System.out.println(bestArc);
+		}
+		return bestCost;
 	}
 }
