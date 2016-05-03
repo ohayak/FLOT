@@ -1,15 +1,14 @@
-package vrp;
+package tsp;
 
-import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedList;
 
 public class Graph {
 	private int V;   // No. of vertices
 	private LinkedList<Integer> adj[]; // Adjacency List Represntation
-	private ArrayList<Arc> arcList;
+
 	
-	public Graph(int v) {
+	Graph(int v) {
 		V = v;
 		adj = new LinkedList[v];
 		for(int i=0; i<v; ++i)
@@ -17,30 +16,23 @@ public class Graph {
 	}
 
 	// Function to add an edge into the graph
-	public void addEdge(int v,int w, double cost) {
+	void addEdge(int v,int w) {
 		adj[v].add(w);
-		arcList.add(new Arc(v, w, cost));
 		// adj[w].add(v);
 	}
 	
-	public void removeEdge(int v, int w){
+	void removeEdge(int v, int w){
 		adj[v].remove((Integer)w);
-		Arc a = Arc.findArc(arcList, v, w);
-		arcList.remove(a);
 		// adj[w].remove((Integer)v);
 		
 	}
 	
-	public LinkedList<Integer> getAdj(int e){
+	LinkedList<Integer> getAdj(int e){
 		return adj[e];
 	}
 	
-	public int getSize(){
+	int getSize(){
 		return V;
-	}
-	
-	public Arc getArc(int v, int w){
-		return Arc.findArc(arcList, v, w);
 	}
 
 	// A recursive function that uses visited[] and parent to detect
@@ -74,7 +66,7 @@ public class Graph {
 	}
 
 	// Returns true if the graph contains a cycle, else false.
-	public Boolean isCyclic()
+	Boolean isCyclic()
 	{
 		// Mark all the vertices as not visited and not part of
 		// recursion stack

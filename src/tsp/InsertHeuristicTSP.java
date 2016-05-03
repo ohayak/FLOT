@@ -16,6 +16,8 @@ public class InsertHeuristicTSP implements HeuristicTSP {
 
 	private ArrayList<Arc> initList;
 	private ArrayList<Arc> finalList;
+	private double mBestCost;
+	private Arc mBestArc;
 
 	public double computeSolution(double[][] matrix, List<Integer> solution) {
 		initList = Arc.genArcList(matrix);
@@ -26,7 +28,7 @@ public class InsertHeuristicTSP implements HeuristicTSP {
 		for(int i = 0; i < matrix.length; i++){
 			out.add((Integer)i);
 		}
-
+		
 		// Cycle with the longest edge
 		Arc max1 = Collections.max(initList);
 		Arc max2 = Arc.findArc(initList, max1.getTarget(), max1.getSource());
@@ -35,24 +37,21 @@ public class InsertHeuristicTSP implements HeuristicTSP {
 		finalList.add(max2);
 		solution.add(max1.getTarget());
 		solution.add(max1.getSource());
-		out.remove(max1.getSource());
-		out.remove(max1.getTarget());
-		//		initList.remove(Arc.findArc(initList, max.getSource(), max.getTarget()));
-		//		initList.remove(Arc.findArc(initList, max.getTarget(), max.getSource()));
+		out.remove((Integer)max1.getSource());
+		out.remove((Integer)max1.getTarget());
 
-		double bestCost, maxCost;
+		double maxCost;
 		int finalVertex;
-		Arc bestArc = null;
 		Arc finalArc = null;
 		while(!out.isEmpty()){
 			maxCost = Double.MIN_VALUE;
 			finalVertex = -1;
 			for(Integer v : out){
-				bestCost = findBestFit(v, bestArc);
-				if(maxCost < bestCost){
+				findBestFit(v);
+				if(maxCost < mBestCost){
 					finalVertex = v;
-					maxCost = bestCost;
-					finalArc = bestArc;
+					maxCost = mBestCost;
+					finalArc = mBestArc;
 				}
 			}
 			solution.add(finalVertex);
@@ -64,32 +63,26 @@ public class InsertHeuristicTSP implements HeuristicTSP {
 			finalList.remove(finalArc);
 			finalList.add(tmp1);
 			finalList.add(tmp2);
-			//			initList.remove(tmp1);
-			//			initList.remove(tmp2);
 		}
-
 		return totalCost;
 	}
 
-	private double findBestFit(int v, Arc bestArc){
-		bestArc = null;
-		double bestCost = Double.MAX_VALUE;
+	private void findBestFit(int v){
+		mBestCost = Double.MAX_VALUE;
+		mBestArc = null;
 		double pCost;
-		System.out.println(finalList);
+		
 		for(Arc a : finalList){
-			if(bestArc == null){
-				bestArc = a;
+			if(mBestArc == null){
+				mBestArc = a;
 			}
-			System.out.println(a+"<<<");
 			Arc tmp1 = Arc.findArc(initList, a.getSource(), v);
 			Arc tmp2 = Arc.findArc(initList, v, a.getTarget());
 			pCost = tmp1.getCost() + tmp2.getCost();
-			if( pCost < bestCost){
-				bestArc = a;
-				bestCost = pCost;
+			if( pCost < mBestCost){
+				mBestArc = a;
+				mBestCost = pCost;
 			}			
-			System.out.println(bestArc);
 		}
-		return bestCost;
 	}
 }
