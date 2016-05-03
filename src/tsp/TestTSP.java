@@ -44,7 +44,7 @@ public class TestTSP {
 	 * Load file f into the list of instances.
 	 * @param f the file to load
 	 */
-	private void loadFile(File f) {
+	void loadFile(File f) {
 		if(f.getName().endsWith(".tsp")){fileList.add(f);}
 		else System.out.println("File " + f.getName() + " not loaded (extension is not .tsp");
 	}
@@ -89,7 +89,6 @@ public class TestTSP {
 				System.out.println("File not found... Strange.");
 			}
 			double val = h.computeSolution(data.getMatrix(), soluce);
-
 			listValues.add(val);
 		}
 

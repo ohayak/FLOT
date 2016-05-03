@@ -7,7 +7,7 @@ public class MainTSP {
 	private static char stringtoCode(String s){
 		if(s.equals("-h1") || s.equals("--heuristic1")) return 'h';
 		if(s.equals("-h2") || s.equals("--heuristic2")) return 'H';
-		if(s.equals("-e") || s.equals("--exact")) return 'e';
+		if(s.equals("-e")  || s.equals("--exact")) return 'e';
 		if(s.equals("-l1") || s.equals("--lowerbound")) return 'l';
 		return '0';
 	}
@@ -26,7 +26,7 @@ public class MainTSP {
 	 * 
 	 * */
 	public static void main(String args[]) {
-		TestTSP tt = new TestTSP();		
+		TestTSP tt = new TestTSP();
 		tt.loadFile(args[1]);
 
 		List<Double> listRes; // list of results
