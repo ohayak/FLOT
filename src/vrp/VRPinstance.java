@@ -144,11 +144,11 @@ public class VRPinstance {
 	}
 	
 
-	public static void parser(String path) {
+	public static void parse(String path) {
 
 		VRPinstance instance = null;
 		try {
-			instance = new VRPinstance("./data/CVRP_Instances_Augerat/A-n55-k9.vrp");
+			instance = new VRPinstance(path);
 		} catch (java.io.FileNotFoundException e) {
 			System.out.println("File not found");
 		}

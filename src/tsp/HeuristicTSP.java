@@ -14,6 +14,6 @@ public interface HeuristicTSP{
 	 * @param solution an empty list that will be filled with the solution by the method 
 	 * @return the value of the solution found
 	 */
-    double computeSolution(double[][] matrix, List<Integer> solution);
+    public double computeSolution(double[][] matrix, List<Integer> solution);
 
 }
