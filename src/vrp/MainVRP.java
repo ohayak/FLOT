@@ -1,9 +1,12 @@
 package vrp;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class MainVRP {
 	
 	public static void main(String args[]) {
-		
+		List<Trip> L = new ArrayList<Trip>();
 		VRPinstance instance = null;
 		try {
 			instance = new VRPinstance(args[0]);
@@ -23,6 +26,6 @@ public class MainVRP {
 		System.out.println("Capacite : " + instance.getCapacity());
 		
 		ClarkeWright cw = new ClarkeWright(instance);
-		cw.computeSolution();
+		cw.computeSolution(L);
 	}
 }

@@ -5,6 +5,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import graph.Edge;
+
 /**
  * 
  * This heuristic iteratively appends a customer
@@ -14,14 +16,14 @@ import java.util.Map;
 
 public class InsertHeuristicTSP implements HeuristicTSP {
 
-	private ArrayList<Arc> initList;
-	private ArrayList<Arc> finalList;
+	private ArrayList<Edge> initList;
+	private ArrayList<Edge> finalList;
 	private double mBestCost;
-	private Arc mBestArc;
+	private Edge mBestArc;
 
 	public double computeSolution(double[][] matrix, List<Integer> solution) {
-		initList = Arc.genArcList(matrix);
-		finalList = new ArrayList<Arc>();
+		initList = Edge.genArcList(matrix);
+		finalList = new ArrayList<Edge>();
 		ArrayList<Integer> out = new ArrayList<Integer>();
 
 		//Not visited vertex
@@ -30,8 +32,8 @@ public class InsertHeuristicTSP implements HeuristicTSP {
 		}
 		
 		// Cycle with the longest edge
-		Arc max1 = Collections.max(initList);
-		Arc max2 = Arc.findArc(initList, max1.getTarget(), max1.getSource());
+		Edge max1 = Collections.max(initList);
+		Edge max2 = Edge.findArc(initList, max1.getTarget(), max1.getSource());
 		double totalCost = 2*max1.getCost();
 		finalList.add(max1);
 		finalList.add(max2);
@@ -42,7 +44,7 @@ public class InsertHeuristicTSP implements HeuristicTSP {
 
 		double maxCost;
 		int finalVertex;
-		Arc finalArc = null;
+		Edge finalArc = null;
 		while(!out.isEmpty()){
 			maxCost = Double.MIN_VALUE;
 			finalVertex = -1;
@@ -56,8 +58,8 @@ public class InsertHeuristicTSP implements HeuristicTSP {
 			}
 			solution.add(finalVertex);
 			out.remove((Integer)finalVertex);
-			Arc tmp1 = Arc.findArc(initList, finalArc.getSource(), finalVertex);
-			Arc tmp2 = Arc.findArc(initList, finalVertex, finalArc.getTarget());
+			Edge tmp1 = Edge.findArc(initList, finalArc.getSource(), finalVertex);
+			Edge tmp2 = Edge.findArc(initList, finalVertex, finalArc.getTarget());
 			totalCost -= finalArc.getCost();
 			totalCost = tmp1.getCost() + tmp2.getCost();
 			finalList.remove(finalArc);
@@ -72,12 +74,12 @@ public class InsertHeuristicTSP implements HeuristicTSP {
 		mBestArc = null;
 		double pCost;
 		
-		for(Arc a : finalList){
+		for(Edge a : finalList){
 			if(mBestArc == null){
 				mBestArc = a;
 			}
-			Arc tmp1 = Arc.findArc(initList, a.getSource(), v);
-			Arc tmp2 = Arc.findArc(initList, v, a.getTarget());
+			Edge tmp1 = Edge.findArc(initList, a.getSource(), v);
+			Edge tmp2 = Edge.findArc(initList, v, a.getTarget());
 			pCost = tmp1.getCost() + tmp2.getCost();
 			if( pCost < mBestCost){
 				mBestArc = a;

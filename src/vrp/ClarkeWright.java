@@ -1,5 +1,6 @@
 package vrp;
 import java.util.ArrayList;
+import java.util.List;
 
 public class ClarkeWright {
 	private int N;
@@ -24,7 +25,7 @@ public class ClarkeWright {
 			L.add(new Trip(i, demands[i]));
 	}
 
-	public double computeSolution(){
+	public double computeSolution(List<Trip> result){
 		double saving, bestSaving, totalSaving = 0;
 		Trip bestChoise1 = null, bestChoise2 = null;
 		boolean repeat;
@@ -53,6 +54,7 @@ public class ClarkeWright {
 		}while(repeat);
 		
 		System.out.println("Total Saving= "+totalSaving);
+		result = L;
 		return totalSaving;
 	}
 
