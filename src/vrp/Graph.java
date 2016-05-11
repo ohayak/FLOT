@@ -6,8 +6,8 @@ import java.util.LinkedList;
 
 public class Graph {
 	private int V;   // No. of vertices
-	private LinkedList<Integer> adj[]; // Adjacency List Represntation
-	private ArrayList<Arc> arcList;
+	private LinkedList<Integer> adj[]; // Adjacency List Representation
+	private ArrayList<Arc> arcList = new ArrayList<Arc>();
 	
 	public Graph(int v) {
 		V = v;
@@ -20,7 +20,7 @@ public class Graph {
 	public void addEdge(int v,int w, double cost) {
 		adj[v].add(w);
 		arcList.add(new Arc(v, w, cost));
-		// adj[w].add(v);
+		//adj[w].add(v);
 	}
 	
 	public void removeEdge(int v, int w){

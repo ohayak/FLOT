@@ -13,16 +13,16 @@ public class VRPinstance {
 
 
 	/* distance matrix */
-	private double matrix[][] = null;
+	private static double matrix[][] = null;
 
 	/* demand table */
-	private int demands[] = null;
+	private static int demands[] = null;
 
 	/* Capacity of a vehicle */
-	private int capacity = -1;
+	private static int capacity = -1;
 
 	// private String name=null;
-	private int size;
+	private static int size;
 
 	public VRPinstance(FileReader f) {
 		Scanner scan = new Scanner(f);
@@ -44,9 +44,11 @@ public class VRPinstance {
 
 		double x[] = new double[size];
 		double y[] = new double[size];
+
+		scan.next();
 		
 		for (int i = 0; i < size; i++) {
-			scan.next();
+			scan.nextInt();
 			x[i] = scan.nextInt();
 			y[i] = scan.nextInt();
 		}
@@ -100,14 +102,17 @@ public class VRPinstance {
 	 * @param capacity The capacity of the vehicles.
 	 * @param size The size of the instance (number of customers)
 	 */
-	public VRPinstance(double[][] matrix, int[] demands, int capacity, int size) {
+	/*public VRPinstance(double[][] matrix, int[] demands, int capacity, int size) {
 		super();
 		this.matrix = matrix;
 		this.demands = demands;
 		this.capacity = capacity;
 		this.size = size;
 	}
-
+*/
+		public VRPinstance(){
+		
+		}
 	/**
 	 * returns the matrix read
 	 * 
@@ -122,7 +127,7 @@ public class VRPinstance {
 	 * 
 	 * @return N
 	 */
-	public int getSize() {
+	public int getN() {
 		return size;
 	}
 
@@ -139,29 +144,29 @@ public class VRPinstance {
 	}
 	
 
-//	public static void main(String args[]) {
-//
-//		VRPinstance instance = null;
-//		try {
-//			instance = new VRPinstance("Augerat/A-n32-k5.vrp");
-//		} catch (java.io.FileNotFoundException e) {
-//			System.out.println("File not found");
-//		}
-//
-//		System.out.println("Matrice de distances");
-//		double[][] matrix = instance.getMatrix();
-//		for (int i = 0; i < instance.getN(); i++) {
-//			System.out.print(matrix[i][0] + " ");
-//		}
-//		System.out.println();
-//		
-//		int[] demands = instance.getDemands();
-//		System.out.println("Demandes");
-//		for(int d : demands) System.out.print(d + " ");
-//		System.out.println();
-//		
-//		System.out.println("Capacite : " + instance.getCapacity());
-//		
-//	}
+	public static void parser(String path) {
+
+		VRPinstance instance = null;
+		try {
+			instance = new VRPinstance("./data/CVRP_Instances_Augerat/A-n55-k9.vrp");
+		} catch (java.io.FileNotFoundException e) {
+			System.out.println("File not found");
+		}
+
+		System.out.println("Matrice de distances");
+		matrix = instance.getMatrix();	
+		for (int i = 0; i < instance.getN(); i++) {
+			System.out.print(matrix[i][0] + " ");
+		}
+		System.out.println();
+		
+		demands = instance.getDemands();
+		System.out.println("Demandes");
+		for(int d : demands) System.out.print(d + " ");
+		System.out.println();
+		capacity = instance.getCapacity();
+		System.out.println("Capacite : " + instance.getCapacity());
+		
+	}
 
 }
