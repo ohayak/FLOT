@@ -18,7 +18,7 @@ public class Dijkstra{
 	private Map<Vertex, Double> distance;
 
 	public Dijkstra(Graph graph) {
-		new ArrayList<Vertex>(graph.getVertexes());
+		new ArrayList<Vertex>(graph.getVertexs());
 		this.edges = new ArrayList<Edge>(graph.getEdges());
 	}
 
@@ -40,10 +40,8 @@ public class Dijkstra{
 	private void findMinimalDistances(Vertex node) {
 		List<Vertex> adjacentNodes = getNeighbors(node);
 		for (Vertex target : adjacentNodes) {
-			if (getShortestDistance(target) > getShortestDistance(node)
-					+ getDistance(node, target)) {
-				distance.put(target, getShortestDistance(node)
-						+ getDistance(node, target));
+			if (getShortestDistance(target) > getShortestDistance(node) + getDistance(node, target)) {
+				distance.put(target, getShortestDistance(node) + getDistance(node, target));
 				predecessors.put(target, node);
 				unSettledNodes.add(target);
 			}
@@ -53,8 +51,7 @@ public class Dijkstra{
 
 	private double getDistance(Vertex node, Vertex target) {
 		for (Edge edge : edges) {
-			if (edge.getSource().equals(node)
-					&& edge.getTarget().equals(target)) {
+			if (edge.getSource().equals(node) && edge.getTarget().equals(target)) {
 				return edge.getCost();
 			}
 		}
@@ -66,7 +63,7 @@ public class Dijkstra{
 		for (Edge edge : edges) {
 			if (edge.getSource().equals(node)
 					&& !isSettled(edge.getTarget())) {
-				neighbors.add(new Vertex(edge.getTarget()));
+				neighbors.add(edge.getTarget());
 			}
 		}
 		return neighbors;
@@ -86,8 +83,8 @@ public class Dijkstra{
 		return minimum;
 	}
 
-	private boolean isSettled(Integer integer) {
-		return settledNodes.contains(integer);
+	private boolean isSettled(Vertex vertex) {
+		return settledNodes.contains(vertex);
 	}
 
 	private Double getShortestDistance(Vertex destination) {
@@ -102,6 +99,7 @@ public class Dijkstra{
 	/*
 	 * This method returns the path from the source to the selected target and
 	 * NULL if no path exists
+	 * Source is not included in returned path, target included
 	 */
 	public LinkedList<Vertex> getPath(Vertex target) {
 		LinkedList<Vertex> path = new LinkedList<Vertex>();

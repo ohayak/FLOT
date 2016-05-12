@@ -155,7 +155,7 @@ public class VRPinstance {
 
 		System.out.println("Matrice de distances");
 		matrix = instance.getMatrix();	
-		for (int i = 0; i < instance.getN(); i++) {
+		for (int i = 1; i < instance.getN(); i++) {
 			System.out.print(matrix[i][0] + " ");
 		}
 		System.out.println();

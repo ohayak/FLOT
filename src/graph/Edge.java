@@ -1,21 +1,27 @@
 package graph;
 
-import java.util.ArrayList;
+import java.util.LinkedList;
 
 public class Edge implements Comparable<Edge> {
-	public Integer source;
-	public Integer target;
+	public Vertex source;
+	public Vertex target;
 	public double cost;
 
-	public Edge(Integer source, Integer target, double cost) {
+	public Edge(Vertex source, Vertex target, double cost) {
 		this.source = source;
 		this.target = target;
 		this.cost = cost;
 	}
 	
+	public Edge(Integer source, Integer target, double cost) {
+		this.source = new Vertex(source);
+		this.target = new Vertex(target);
+		this.cost = cost;
+	}
+	
 	public Edge(){
-		this.source = 0;
-		this.target = 0;
+		this.source = null;
+		this.target = null;
 		this.cost = Double.MAX_VALUE;
 	}
 	
@@ -23,20 +29,20 @@ public class Edge implements Comparable<Edge> {
 		return cost;
 	}
 	
-	public Integer getSource() {
+	public Vertex getSource() {
 		return source;
 	}
 
-	public Integer getTarget() {
+	public Vertex getTarget() {
 		return target;
 	}
 
 	public String toString() {
-		return "(" + source + "," + target + ")"+cost;
+		return "(" + source + "," + target + "|" + cost + ")";
 	}
 	
 	
-	public static Edge findArc(ArrayList<Edge> list, Integer source, Integer target){
+	public static Edge findEdge(LinkedList<Edge> list, Vertex source, Vertex target){
 		for(Edge a : list){
 			if(a.getSource() == source && a.getTarget() == target){
 				return a;
@@ -45,17 +51,16 @@ public class Edge implements Comparable<Edge> {
 		return null;
 	}
 	
-	public static ArrayList<Edge> genArcList(double[][] matrix){
-		ArrayList<Edge> list = new ArrayList<Edge>();
-		for (Integer i = 0; i < matrix.length; ++i){
-			for (Integer j = 0; j < matrix.length ; ++j){
-				if(i==j)
-					continue;
-				Edge a = new Edge(i,j, matrix[i][j]);
-				list.add(a);
-			}
-		}
-		return list;
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Edge other = (Edge) obj;
+		return other.source == source && other.target == target;
 	}
 
 	@Override

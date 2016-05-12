@@ -3,6 +3,8 @@ package vrp;
 import java.util.ArrayList;
 import java.util.List;
 
+import tsp.InsertHeuristicTSP;
+
 public class MainVRP {
 	
 	public static void main(String args[]) {
@@ -25,7 +27,10 @@ public class MainVRP {
 		System.out.println();
 		System.out.println("Capacite : " + instance.getCapacity());
 		
-		ClarkeWright cw = new ClarkeWright(instance);
-		cw.computeSolution(L);
+		//ClarkeWright cw = new ClarkeWright(instance);
+		InsertHeuristicTSP tsp = new InsertHeuristicTSP();
+		GiantTour gt = new GiantTour(tsp, instance);
+		
+		gt.computeSolution(L);
 	}
 }

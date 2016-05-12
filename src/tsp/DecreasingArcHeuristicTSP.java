@@ -1,11 +1,8 @@
 package tsp;
 
-import graph.Edge;
-import java.util.ArrayList;
+import graph.*;
 import java.util.Collections;
 import java.util.List;
-
-import graph.Edge;
 
 /**
  * This heuristic sorts the arcs by increasing value and 
@@ -14,38 +11,39 @@ import graph.Edge;
  * The method stops when a tour is obtained.
  */
 public class DecreasingArcHeuristicTSP implements HeuristicTSP {
+	private Graph graph;
 	
 	public double computeSolution(double[][] matrix, List<Integer> solution) {
-		ArrayList<Edge> arcList = Edge.genArcList(matrix);
-		Collections.sort(arcList);
+		graph = new Graph(matrix);
+		Collections.sort(graph.getEdges());
 		Graph tmp = new Graph(matrix.length);
 		int journey = 0;
 		double cost = 0;
 		
-		for (Edge edge: arcList){
-			tmp.addEdge(edge.getSource(), edge.getTarget());
-			tmp.addEdge(edge.getTarget(), edge.getSource());
+		for (Edge edge : graph.getEdges()){
+			tmp.addEdge(edge.source, edge.target, edge.cost);
+			tmp.addEdge(edge.target, edge.source, edge.cost);
 			journey++;
 			if (tmp.isCyclic() && journey < tmp.getSize()){
-				tmp.removeEdge(edge.getSource(), edge.getTarget());
-				tmp.removeEdge(edge.getTarget(), edge.getSource());
+				tmp.delEdge(edge.source, edge.target);
+				tmp.delEdge(edge.source, edge.target);
 				journey--;
 			} else {
 				cost+=edge.getCost();
 			}
 		}
-		int current = 1;
-		int before = 1;
-		int after = tmp.getAdj(current).getFirst();
+		Vertex current = new Vertex(1);
+		Vertex before = new Vertex(1);
+		Vertex after = tmp.adj[current.id].getFirst();
 		do{
-			solution.add(current);
-			if (tmp.getAdj(current).getFirst() != before)
-				after = tmp.getAdj(current).getFirst();
+			solution.add(current.id);
+			if (tmp.adj[current.id].getFirst().equals(before))
+				after = tmp.adj[current.id].getFirst();
 			else
-				after = tmp.getAdj(current).getLast();
+				after = tmp.adj[current.id].getLast();
 			before = current;
 			current = after;
-		}while(current != 1);
+		}while(current.id != 1);
 		return cost;
 	}
 	

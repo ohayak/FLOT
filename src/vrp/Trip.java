@@ -3,18 +3,24 @@ package vrp;
 import java.util.LinkedList;
 import java.util.List;
 
-public class Trip extends LinkedList<Integer> {
+import graph.Vertex;
+
+public class Trip extends LinkedList<Vertex> {
 	private static final long serialVersionUID = 1L;
 	private int demand;
 	
-	Trip(List<Integer> l, int d){
+	Trip(){
+		super();
+	}
+	
+	Trip(List<Vertex> l, int d){
 		super(l);
 		demand = d;
 	}
 	
-	Trip(int i, int d){
+	Trip(Vertex i, int d){
 		super();
-		add((Integer)i);
+		add(i);
 		demand = d;
 	}
 	
@@ -22,8 +28,8 @@ public class Trip extends LinkedList<Integer> {
 		return demand;
 	}
 	
-	void addToTrip(int i, int d){
-		add((Integer)i);
+	void addToTrip(Vertex i, int d){
+		add(i);
 		demand+=d;
 	}
 }
